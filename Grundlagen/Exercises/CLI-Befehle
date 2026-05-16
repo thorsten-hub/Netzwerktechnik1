@@ -1,0 +1,117 @@
+
+
+do sh mac address-table
+
+router configurieren:
+
+raus aus menü mit exit: raus mit exit
+
+config mode: config t
+
+hostname setzen:  hostname R1
+password setzen: enable password abc
+
+Interface mit Ip configurieren:
+
+interface Fa0/0
+ip add 192.168.0.1 255.255.255.0
+schnittstelle anschalten: #no shutdown
+config abspeichern: write
+
+
+Konfuguraion anzeigen:
+sh running-config
+show ip interface brief
+
+show interfaces fa0/0
+
+----------------------------
+route configurieren:
+
+ip route <Netzwerkadresse> <Subnetzmaske> <IP-Adresse_des_nächsten_Routers>
+show ip route
+
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+###dhcp extra Server:
+
+helper addresse  setze:
+in den modus config auf das interface gehen.
+
+
+#ip help
+ip helper-address 192-168.1.254
+
+löschen:
+no ip helper-address 192-168.1.254
+---------------------------
+###dhcp Router:
+Router(config)# ip dhcp excluded-address 192.168.1.1 192.168.1.10
+
+Router(config)# ip dhcp pool MEIN_POOL
+Router(dhcp-config)# network 192.168.1.0 255.255.255.0
+Router(dhcp-config)# default-router 192.168.1.1
+Router(dhcp-config)# dns-server 8.8.8.8
+Router(dhcp-config)# exit
+
+------------------------
+dhcp pool anzeigen:
+show running-config
+show ip dhcp binding
+show ip dhcp pool
+
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+VLAN erstellen:
+
+Switch(config)# vlan 10  // vlan Id
+Switch(config-vlan)# name Personal //vlan name
+Switch(config-vlan)# exit
+
+Ports dem Vlan zuweisen:
+
+Switch(config)# interface fastEthernet 0/1  !(oder range fa0/1-5 für mehrere)
+Switch(config-if)# switchport mode access // traffic über Port nur für ein Vlan, kein trunk
+Switch(config-if)# switchport access vlan 10 //dem Port eine Vlan id zuweisen
+Switch(config-if)# exit
+
+config einsehen:
+Switch# show vlan brief
+
+------------------
+trunk ethernet802.1q
+(config-if)# switchport mode trunk
+config-if)# switchport trunk native vlan 99
+
+sh int trunk
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+Switch>enable
+Switch#config t
+Switch(config)#hostname Switch0
+Switch0(config)#vlan 10
+Switch0(config-vlan)#name vlan10
+Switch0(config-vlan)#exit
+Switch0(config)#interface gig0/1
+Switch0(config-if)#switchport mode trunk
+Switch0(config-if)#exit
+Switch0(config)#exit
+Switch0#wite
+Switch0(config-if)#switchport access vlan 10
+Switch1(config-if)#switchport trunk native vlan 99
+
+ports zuweisen:
+Switch0(config)#interface fa0/1
+Switch0(config-if)#switchport mode access
+Switch0(config-if)#switchport access vlan 20
+
+--------------------------------------------------------------
+Ip routing über Vlan:
+am router
+Router(config)#interface fa0/0.20
+Router(config-subif)#encapsulation dot1Q 20
+Router(config-subif)#ip address 192.168.20.254 255.255.255.0
+
+am Switch
+Switch0(config-if)#switchport trunk allowed vlan 10, 20
+Switch0(config-if)#switchport trunk allowed vlan add 99
+
