@@ -1,3 +1,0 @@
-Filter für DHCP:
-
-Ausschalten: DTP, STP, ARP, ICMP
