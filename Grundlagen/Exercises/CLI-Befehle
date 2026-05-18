@@ -115,3 +115,15 @@ am Switch
 Switch0(config-if)#switchport trunk allowed vlan 10, 20
 Switch0(config-if)#switchport trunk allowed vlan add 99
 
+Ethernet802.1g
+EthernetII
+---------------------------------------------------
+von layer2 auf l3 umschalten:
+Switch0(config)# no switchport
+
+ip routing:
+sh run config -> sehen ob angestellt
+ip route -> ip routing anstellen
+
+Switch(config-if)#no switchport
+
