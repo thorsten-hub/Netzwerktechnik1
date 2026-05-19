@@ -125,5 +125,8 @@ ip routing:
 sh run config -> sehen ob angestellt
 ip route -> ip routing anstellen
 
+
+Switch(config)#ip routing
 Switch(config-if)#no switchport
+
 
